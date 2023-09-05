@@ -1,0 +1,31 @@
+server:
+  port: 8002
+
+
+spring:
+  application:
+    name: cloud-provider-service  #eureka界面的application,被转换成了大写CLOUD-PROVIDER-SERVICE
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource      #当前数据源操作类型
+    driver-class-name: org.gjt.mm.mysql.Driver        #mysql驱动包
+    url: jdbc:mysql://localhost:3306/db2019?useUnicode=true&characterEncoding-utr-8&useSSL=false
+    username: root
+    password: 123456
+
+eureka:
+  client:
+    register-with-eureka: true #是否向注册中心注册自己，是否在eureka界面显示
+    fetchRegistry: true #是否从注册中心抓取已有的注册信息 默认true，集群必须设置为true
+    service-url:
+      #      设置与eureka server交互的地址查询服务和注册服务都需要依赖这个地址
+      #      defaultZone: http://localhost:7001/eureka #单机版
+      #      向defaultZone后的地址注册8001端口
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka  #集群版
+  instance:
+    #将eureka界面的status名字从cookie:cloud-provider-service:8002改为payment8002
+    instance-id: payment8002
+    prefer-ip-address: true  #给payment8001名字配上本机的ip地址，鼠标放名字左下角显示名字
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.atguigu.springcloud.entities
